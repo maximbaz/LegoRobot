@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace LegoRobot.Routing
+namespace LegoRobot.Model.Routing
 {
     public class PointRoutes
     {
@@ -10,7 +10,7 @@ namespace LegoRobot.Routing
 
         public int Index { get; set; }
 
-        [ForeignKey("PointId")] public virtual Point Point { get; set; }
-        [ForeignKey("RouteId")] public virtual Route Route { get; set; }
+        public virtual Point Point { get; set; }
+        public virtual Route Route { get; set; }
     }
 }

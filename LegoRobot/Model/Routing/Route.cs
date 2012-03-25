@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace LegoRobot.Routing
+namespace LegoRobot.Model.Routing
 {
-    public class Route : IRoute
+    public class Route
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid StartId { get; set; }
 

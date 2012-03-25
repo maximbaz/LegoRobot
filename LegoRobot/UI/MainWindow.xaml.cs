@@ -1,4 +1,5 @@
-﻿using LegoRobot.Routing;
+﻿using LegoRobot.Model;
+using LegoRobot.Model.Routing;
 
 namespace LegoRobot.UI
 {

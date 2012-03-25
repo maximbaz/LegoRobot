@@ -1,7 +1,7 @@
 ﻿using System;
-using LegoRobot.Routing;
+using LegoRobot.Model.Routing;
 
-namespace LegoRobot
+namespace LegoRobot.Model
 {
     public class Log
     {

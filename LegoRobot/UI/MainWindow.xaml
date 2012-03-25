@@ -1,8 +1,9 @@
 ﻿<Window x:Class="LegoRobot.UI.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="MainWindow" Height="350" Width="525" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:my="clr-namespace:LegoRobot.Routing">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="MainWindow" Height="350" Width="525" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Routing="clr-namespace:LegoRobot.Model.Routing">
     <Window.Resources>
-        <CollectionViewSource x:Key="routeViewSource" d:DesignSource="{d:DesignInstance my:Route, CreateList=True}" />
-        <CollectionViewSource x:Key="pointViewSource" d:DesignSource="{d:DesignInstance my:Point, CreateList=True}" />
+        <CollectionViewSource x:Key="routeViewSource" d:DesignSource="{d:DesignInstance Routing:Route, CreateList=True}" />
+        <CollectionViewSource x:Key="pointViewSource" d:DesignSource="{d:DesignInstance Routing:Point, CreateList=True}" />
     </Window.Resources>
     <Grid DataContext="{StaticResource routeViewSource}">
         <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="105" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource pointViewSource}}" Margin="26,97,0,0" Name="pointDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="400">

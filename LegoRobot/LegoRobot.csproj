@@ -66,15 +66,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Log.cs" />
+    <Compile Include="Model\Configuration\RouteErrorsConfiguration.cs" />
+    <Compile Include="Model\Configuration\PointRoutesConfiguration.cs" />
+    <Compile Include="Model\Configuration\StartConfiguration.cs" />
+    <Compile Include="Model\Log.cs" />
+    <Compile Include="Model\Routing\RouteErrors.cs" />
     <Compile Include="Robot.cs" />
-    <Compile Include="RouteContext.cs" />
-    <Compile Include="Routing\FakeRoute.cs" />
-    <Compile Include="Routing\IRoute.cs" />
-    <Compile Include="Routing\Point.cs" />
-    <Compile Include="Routing\PointRoutes.cs" />
-    <Compile Include="Routing\Route.cs" />
-    <Compile Include="Routing\Start.cs" />
+    <Compile Include="Model\RouteContext.cs" />
+    <Compile Include="Model\Routing\Point.cs" />
+    <Compile Include="Model\Routing\PointRoutes.cs" />
+    <Compile Include="Model\Routing\Route.cs" />
+    <Compile Include="Model\Routing\Start.cs" />
     <Compile Include="UI\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

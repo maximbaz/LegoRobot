@@ -1,5 +1,5 @@
 ﻿using System;
-using LegoRobot.Routing;
+using LegoRobot.Model.Routing;
 
 namespace LegoRobot
 {
@@ -11,7 +11,7 @@ namespace LegoRobot
 
         public bool IsConnected { get; private set; }
 
-        public bool PassRoute(IRoute route) {
+        public bool PassRoute(Route route) {
             throw new NotImplementedException();
         }
 
