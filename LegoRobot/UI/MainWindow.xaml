@@ -3,16 +3,19 @@
         xmlns:Routing="clr-namespace:LegoRobot.Model.Routing">
     <Window.Resources>
         <CollectionViewSource x:Key="routeViewSource" d:DesignSource="{d:DesignInstance Routing:Route, CreateList=True}" />
-        <CollectionViewSource x:Key="pointViewSource" d:DesignSource="{d:DesignInstance Routing:Point, CreateList=True}" />
     </Window.Resources>
     <Grid DataContext="{StaticResource routeViewSource}">
-        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="105" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource pointViewSource}}" Margin="26,97,0,0" Name="pointDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="400">
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="idColumn1" Binding="{Binding Path=Id}" Header="Id" Width="SizeToHeader" />
-                <DataGridTextColumn x:Name="xColumn" Binding="{Binding Path=X}" Header="X" Width="SizeToHeader" />
-                <DataGridTextColumn x:Name="yColumn" Binding="{Binding Path=Y}" Header="Y" Width="SizeToHeader" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="416,74,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
+        <Button Content="Button" HorizontalAlignment="Left" Margin="147,199,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Click="Button_Click_2">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="338.723"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button Content="Create DB" HorizontalAlignment="Left" Height="70" Margin="271,55,0,0" VerticalAlignment="Top" Width="166" Click="Button_Click_1"/>
+
     </Grid>
 </Window>
