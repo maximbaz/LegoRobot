@@ -2,7 +2,6 @@
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using LegoRobot.JavaServer;
 using LegoRobot.JavaServer.Route;
 using LegoRobot.Model.Routing;
@@ -11,22 +10,41 @@ namespace LegoRobot
 {
     public class Robot
     {
+        #region Fields
+
         private readonly RouteSerializer serializer = new RouteSerializer();
         private readonly Server server = new Server();
         private Socket socket;
+
+        #endregion
+
+        #region Constructors and Destructor
 
         public Robot() {
             server.Started += CreateSocket;
             server.Start();
         }
 
+        #endregion
+
+        #region Public Methods
+
         public void PassRoute(Route route) {
             foreach (var action in serializer.Serialize(route)) {
                 server.Invoke(() => Send(action));
                 server.Invoke(CheckAnswerIsOk);
             }
+            Db.RoutePassed(route);
+        }
 
-            server.Invoke(() => new Thread(() => Db.RoutePassed(route)).Start());
+        #endregion
+
+        #region Protected And Private Methods
+
+        private static Guid ParseAnswer(string answer, string value) {
+            var regex = new Regex("(?<=" + value + @"=)[^\s]+");
+            var captures = regex.Match(answer).Captures;
+            return Guid.Parse(captures[0].Value);
         }
 
         private void Send(string request) {
@@ -40,7 +58,7 @@ namespace LegoRobot
                 return;
 
             server.RefreshQueue();
-            new Thread(() => Db.RouteError(ParseAnswer(answer, "Route"), ParseAnswer(answer, "Point"))).Start();
+            Db.RouteError(ParseAnswer(answer, "Route"), ParseAnswer(answer, "Point"));
         }
 
         private string Receive() {
@@ -61,10 +79,6 @@ namespace LegoRobot
             server.Invoke(() => socket.Connect("127.0.0.1", 20042));
         }
 
-        private static Guid ParseAnswer(string answer, string value) {
-            var regex = new Regex("(?<=" + value + @"=)[^\s]+");
-            var captures = regex.Match(answer).Captures;
-            return Guid.Parse(captures[0].Value);
-        }
+        #endregion
     }
 }

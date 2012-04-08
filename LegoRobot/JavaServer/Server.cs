@@ -5,11 +5,17 @@ using System.Threading;
 
 namespace LegoRobot.JavaServer
 {
-    public class Server : IDisposable
+    public class Server
     {
+        #region Events
+
         public event Action Started;
 
-        private readonly ServerSettings settings;
+        #endregion
+
+        #region Fields
+
+        private readonly AsyncActionsProcessing actionsProcessing = new AsyncActionsProcessing();
 
         private readonly Process server = new Process {
             StartInfo = new ProcessStartInfo {
@@ -19,65 +25,64 @@ namespace LegoRobot.JavaServer
 //                WindowStyle = ProcessWindowStyle.Hidden
             }
         };
-        
+
+        #endregion
+
+        #region Constructors and Destructor
+
         public Server() {
             server.EnableRaisingEvents = true;
             server.Exited += OnExit;
-
-            settings = new ServerSettings {PreparingToStop = false, IsStarted = false};
-            new Thread(ServerConnection.ProcessActions) {IsBackground = true}.Start(settings);
-
-            RefreshQueue();
         }
 
+        ~Server() {
+            actionsProcessing.PreparingToStop = true;
+
+            if (!server.HasExited)
+                server.Kill();
+
+            actionsProcessing.CanProcessActions = false;
+        }
+
+        #endregion
+
+        #region Public Methods
+
         public void Invoke(Action action) {
-            settings.Actions.Enqueue(action);
+            actionsProcessing.Actions.Enqueue(action);
         }
 
         public void Start() {
-            if (settings.IsStarted)
+            if (actionsProcessing.CanProcessActions)
                 return;
 
             server.Start();
-            new Thread(RaiseEvent).Start();
+            new Thread(RaiseStartedEvent).Start();
         }
 
         public void RefreshQueue() {
-            settings.Actions = new Queue<Action>();
+            actionsProcessing.Actions = new Queue<Action>();
         }
 
-        public void Dispose() {
-            settings.PreparingToStop = true;
-            Stop();
-            GC.SuppressFinalize(this);
-        }
-        
-        ~Server() {
-            settings.PreparingToStop = true;
-            Stop();
-        }
+        #endregion
 
-        private void RaiseEvent() {
-            Thread.Sleep(1000);
+        #region Protected And Private Methods
 
-            settings.IsStarted = true;
+        private void RaiseStartedEvent() {
+            Thread.Sleep(1000); // Waiting while server connects to robot
+
+            actionsProcessing.CanProcessActions = true;
             if (Started != null)
                 Started();
         }
 
-        private void Stop() {
-            if (!settings.IsStarted)
-                return;
-
-            server.Kill();
-            settings.IsStarted = false;
-        }
-
         private void OnExit(object sender, EventArgs args) {
-            settings.IsStarted = false;
+            actionsProcessing.CanProcessActions = false;
 
-            if (!settings.PreparingToStop)
+            if (!actionsProcessing.PreparingToStop)
                 Start();
         }
+
+        #endregion
     }
 }

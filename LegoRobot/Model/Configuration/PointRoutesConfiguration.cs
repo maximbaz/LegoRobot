@@ -5,6 +5,8 @@ namespace LegoRobot.Model.Configuration
 {
     public class PointRoutesConfiguration : EntityTypeConfiguration<PointRoutes>
     {
+        #region Constructors and Destructor
+
         public PointRoutesConfiguration() {
             HasRequired(a => a.Point)
                 .WithMany(a => a.Routes)
@@ -16,5 +18,7 @@ namespace LegoRobot.Model.Configuration
                 .HasForeignKey(b => b.RouteId)
                 .WillCascadeOnDelete(false);
         }
+
+        #endregion
     }
 }
