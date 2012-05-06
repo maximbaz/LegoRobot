@@ -1,7 +1,7 @@
-USE [LegoRobot.Model.RouteContext]
+USE [LegoRobot]
 GO
 
-/****** Object:  Table [dbo].[Points]    Script Date: 03/25/2012 15:58:37 ******/
+/****** Object:  Table [dbo].[Points]    Script Date: 04/24/2012 15:10:53 ******/
 SET ANSI_NULLS ON
 GO
 

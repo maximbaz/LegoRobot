@@ -1,7 +1,7 @@
-USE [LegoRobot.Model.RouteContext]
+USE [LegoRobot]
 GO
 
-/****** Object:  Table [dbo].[Logs]    Script Date: 03/25/2012 15:58:21 ******/
+/****** Object:  Table [dbo].[Logs]    Script Date: 04/24/2012 15:10:46 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -11,8 +11,8 @@ GO
 CREATE TABLE [dbo].[Logs](
 	[Id] [uniqueidentifier] NOT NULL,
 	[RouteId] [uniqueidentifier] NOT NULL,
-	[Start] [datetime] NOT NULL,
-	[Suceed] [bit] NOT NULL,
+	[Finish] [datetime] NOT NULL,
+	[Succeed] [bit] NOT NULL,
  CONSTRAINT [PK_Logs] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -27,5 +27,8 @@ ON DELETE CASCADE
 GO
 
 ALTER TABLE [dbo].[Logs] CHECK CONSTRAINT [FK_Logs_Routes_RouteId]
+GO
+
+ALTER TABLE [dbo].[Logs] ADD  DEFAULT (newid()) FOR [Id]
 GO
 

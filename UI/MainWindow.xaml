@@ -1,0 +1,55 @@
+﻿<Window x:Class="UI.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Managing Lego Robot" Height="350" Width="845" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Converters="clr-namespace:UI.Converters" xmlns:ViewModels="clr-namespace:UI.ViewModels" ResizeMode="CanMinimize" Icon="Images/Icon.png" d:DataContext="{d:DesignInstance ViewModels:MainViewModel}">
+  <Window.Resources>
+    <Converters:NegateBoolConverter x:Key="negateConverter" FalseValue="True" TrueValue="False" />
+    <BitmapImage x:Key="legoRobot" UriSource="/Images/LegoRobot.png" />
+    <BitmapImage x:Key="speechBubble" UriSource="/Images/SpeechBubble.png" />
+  </Window.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="229*" />
+      <ColumnDefinition Width="291*" />
+      <ColumnDefinition Width="319*" />
+    </Grid.ColumnDefinitions>
+    <Image HorizontalAlignment="Left" VerticalAlignment="Top" Source="{StaticResource legoRobot}" Margin="0,159,0,0" Height="163" Width="180" />
+    <Image HorizontalAlignment="Left" VerticalAlignment="Top" Source="{StaticResource speechBubble}" Margin="10,10,0,0" Width="227" Height="178" Grid.ColumnSpan="2" />
+    <TextBlock HorizontalAlignment="Left" Margin="{Binding RobotFace.Margin}" TextWrapping="Wrap" Text="{Binding RobotFace.Say}" VerticalAlignment="Top" Height="100" Width="190" FontFamily="Hobo Std" FontSize="36" Foreground="{Binding RobotFace.Color}" />
+
+    <CheckBox Command="{Binding RoutesListViewModel.ChangeModeCommand}" IsChecked="true" Content="Automatically Pass New Routes" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15" FontFamily="Plantagenet Cherokee" FontSize="16" Height="21" />
+    <ItemsControl ItemsSource="{Binding RoutesListViewModel.Routes}" IsEnabled="{Binding RoutesListViewModel.AutomaticMode, Converter={StaticResource negateConverter}}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Height="170" Width="240">
+      <ItemsControl.Template>
+        <ControlTemplate>
+          <Border BorderBrush="Black" BorderThickness="1">
+            <ScrollViewer x:Name="ScrollViewer" Padding="{TemplateBinding Padding}">
+              <ItemsPresenter />
+            </ScrollViewer>
+          </Border>
+        </ControlTemplate>
+      </ItemsControl.Template>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <StackPanel Margin="7">
+            <RadioButton GroupName="routes" Padding="7,0,7,7" Width="212" IsChecked="{Binding IsSelected}">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Route of " />
+                <TextBlock Text="{Binding Route.Steps.Count}" />
+                <TextBlock Text=" points" />
+              </StackPanel>
+            </RadioButton>
+          </StackPanel>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <Button Command="{Binding RoutesListViewModel.PassRouteCommand}" Content="Pass Route" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,100" Width="137" Grid.Column="1" Height="22" />
+
+    <DataGrid ItemsSource="{Binding LogsListViewModel.Logs}" IsReadOnly="True" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Height="170" Width="240" Grid.Column="2" />
+    <GroupBox Header="Query Filter" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15" Height="120" Width="255" Grid.Column="2">
+      <Grid>
+        <DatePicker SelectedDate="{Binding LogsListViewModel.Finished}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" />
+        <ComboBox SelectedValue="{Binding LogsListViewModel.SelectedRouteViewModel}" ItemsSource="{Binding RoutesListViewModel.Routes}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Margin="10,10,0,0" />
+        <CheckBox IsChecked="{Binding LogsListViewModel.Succeed}" Content="Succeed" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10"/>
+        <RadioButton IsChecked="{Binding LogsListViewModel.AndLogic}" Content="AND" HorizontalAlignment="Right" VerticalAlignment="Top" Width="53" GroupName="queryLogic" Margin="0,35,20,0" />
+        <RadioButton IsChecked="{Binding LogsListViewModel.AndLogic, Converter={StaticResource negateConverter}}" Content="OR" HorizontalAlignment="Right" VerticalAlignment="Top" Width="53" GroupName="queryLogic" Margin="0,55,20,0" />
+      </Grid>
+    </GroupBox>
+  </Grid>
+</Window>
