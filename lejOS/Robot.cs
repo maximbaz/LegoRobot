@@ -10,6 +10,10 @@ namespace lejOS
 {
     public class Robot
     {
+        public event Action Ready;
+        public event Action Error;
+        public event Action Moving;
+
         #region Fields
 
         private readonly Server server = new Server();
@@ -29,16 +33,24 @@ namespace lejOS
         #region Public Methods
 
         public void PassRoute(Route route) {
+            Fire(Moving);
             foreach (var action in RouteSerializer.Serialize(route)) {
                 server.Invoke(() => Send(action));
                 server.Invoke(CheckAnswerIsOk);
             }
             Db.RoutePassed(route);
+            Fire(Ready);
         }
 
         #endregion
 
         #region Protected And Private Methods
+
+        private static void Fire(Action handler) {
+            if (handler != null) {
+                handler();
+            }
+        }
 
         private static Guid ParseAnswer(string answer, string value) {
             var regex = new Regex("(?<=" + value + @"=)[^\s]+");
@@ -57,7 +69,9 @@ namespace lejOS
                 return;
 
             server.RefreshQueue();
-//            Db.RouteError(ParseAnswer(answer, "Route"), ParseAnswer(answer, "Point"));
+            // Todo: can I parse this?
+            Db.RouteError(ParseAnswer(answer, "Route"), ParseAnswer(answer, "Point"));
+            Fire(Error);
         }
 
         private string Receive() {

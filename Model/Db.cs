@@ -26,14 +26,18 @@ namespace Model
         #region Public Methods
 
         public static void RoutePassed(Route route) {
-            Invoke(() => Context.Log.Add(new Log {Route = route, Finish = DateTime.Now, Succeed = true}));
-            Invoke(() => Context.SaveChanges());
+            Invoke(() => {
+                Context.Log.Add(new Log {Route = route, Finish = DateTime.Now, Succeed = true});
+                Context.SaveChanges();
+            });
         }
 
-        public static void RouteError(Guid stepId) {
-//            Invoke(() => Context.Errors.Add(new Error {StepId = stepId}));
-//            Invoke(() => Context.Log.Add(new Log {RouteId = routeId, Finish = DateTime.Now, Succeed = false}));
-//            Invoke(() => Context.SaveChanges());
+        public static void RouteError(Guid stepId, Guid routeId) {
+            Invoke(() => {
+                Context.Errors.Add(new Error {StepId = stepId});
+                Context.Log.Add(new Log {RouteId = routeId, Finish = DateTime.Now, Succeed = false});
+                Context.SaveChanges();
+            });
         }
 
         public static void FillDbWithFakeRoute() {

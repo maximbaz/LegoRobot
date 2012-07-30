@@ -19,19 +19,19 @@ namespace lejOSTests
                 var i = 0;
                 var expected = new Queue<string>();
                 expected.Enqueue("SRT=-45.0 | Route=" + route.Id + " | Point=" + route.Start.Id + "\n");
-                expected.Enqueue("SRD=20000.0 | Route=" + route.Id + " | Point=" + route.Start.Id + "\n");
+                expected.Enqueue("SRD=2000.0 | Route=" + route.Id + " | Point=" + route.Start.Id + "\n");
                 expected.Enqueue("SRT=45.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=14142.1 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=1414.2 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=45.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=30000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=3000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=-90.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=30000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=3000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=-45.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=28284.3 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=2828.4 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=-45.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=20000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=2000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=90.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=20000.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
+                expected.Enqueue("SRD=2000.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
                 return expected;
             }
         }
@@ -41,19 +41,19 @@ namespace lejOSTests
                 var i = 0;
                 var expected = new Queue<string>();
                 expected.Enqueue("SRT=45.0 | Route=" + route.Id + " | Point=" + route.Start.Id + "\n");
-                expected.Enqueue("SRD=50000.0 | Route=" + route.Id + " | Point=" + route.Start.Id + "\n");
+                expected.Enqueue("SRD=5000.0 | Route=" + route.Id + " | Point=" + route.Start.Id + "\n");
                 expected.Enqueue("SRT=135.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=14142.1 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=1414.2 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=45.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=30000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=3000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=-90.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=30000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=3000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=-45.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=28284.3 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=2828.4 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=-45.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=20000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
+                expected.Enqueue("SRD=2000.0 | Route=" + route.Id + " | Point=" + route.Steps[i++].Point.Id + "\n");
                 expected.Enqueue("SRT=90.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
-                expected.Enqueue("SRD=20000.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
+                expected.Enqueue("SRD=2000.0 | Route=" + route.Id + " | Point=" + route.Steps[i].Point.Id + "\n");
                 return expected;
             }
         }

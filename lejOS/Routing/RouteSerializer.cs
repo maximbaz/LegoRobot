@@ -9,7 +9,7 @@ namespace lejOS.Routing
         #region Static Fields and Constants
 
         private const double AngleEpsilon = 1;
-        private const int Millimeters = 1000;
+        private const int Santimeters = 100;
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace lejOS.Routing
         }
 
         private static string MoveCommand(double length, double scale, string route, string point) {
-            return string.Format("SRD={0:0.0} | Route={1} | Point={2}\n", length * scale * Millimeters, route, point);
+            return string.Format("SRD={0:0.0} | Route={1} | Point={2}\n", length * scale * Santimeters, route, point);
         }
 
         #endregion
