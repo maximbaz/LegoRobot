@@ -6,7 +6,6 @@
 
         public static MainViewModel Current { get; private set; }
         public RobotViewModel RobotFace { get; private set; }
-        public LogsListViewModel LogsListViewModel { get; private set; }
         public RoutesListViewModel RoutesListViewModel { get; private set; }
 
         #endregion
@@ -19,7 +18,6 @@
 
         public MainViewModel() {
             RobotFace = new RobotViewModel();
-            LogsListViewModel = new LogsListViewModel();
             RoutesListViewModel = new RoutesListViewModel(RobotFace);
         }
 

@@ -29,6 +29,7 @@ namespace UI.ViewModels
 
         private readonly Robot robot = new Robot();
         private readonly RobotViewModel robotFace;
+        private readonly SocketListener newRoutesListener;
         private DelegateCommand changeModeCommand;
         private DelegateCommand passRouteCommand;
 
@@ -41,11 +42,20 @@ namespace UI.ViewModels
             AutomaticMode = true;
             Routes = new ThreadSafeObservableCollection<RouteViewModel>();
             Db.SelectAllRoutes(routes => {
-                foreach (var r in (from rd in routes select rd).OrderBy(k => k.Steps.Count))
+                foreach (var r in (from rd in routes select rd).OrderBy(k => k.Steps.Count)) {
                     Routes.Add(new RouteViewModel(r));
+                }
                 OnPropertyChanged("Routes");
                 robotFace.ChangeState(RobotViewModel.RobotIs.Ready);
             });
+            newRoutesListener = new SocketListener(2000) {Working = true};
+            newRoutesListener.Received += id => {
+                // TODO: refresh list of routes
+                if (robotFace.Say == "Ready!") {
+                    // TODO: start passing this route
+                    // TODO: disable checkbox 'automatically pass new routes'
+                }
+            };
             robot.Ready += () => robotFace.ChangeState(RobotViewModel.RobotIs.Ready);
             robot.Moving += () => robotFace.ChangeState(RobotViewModel.RobotIs.Moving);
             robot.Error += () => robotFace.ChangeState(RobotViewModel.RobotIs.Stopped);
@@ -58,6 +68,7 @@ namespace UI.ViewModels
         private void PassRoute() {
             var routeViewModel = (from r in Routes where r.IsSelected select r).Single();
             robot.PassRoute(routeViewModel.Route);
+            // TODO: enable checkbox 'automatically pass new routes'
         }
 
         private void ChangeMode() {

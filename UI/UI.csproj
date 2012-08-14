@@ -57,7 +57,6 @@
     <Compile Include="Converters\BoolToValueConverterWrappers.cs" />
     <Compile Include="Commands\CommandManagerHelper.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
-    <Compile Include="ViewModels\LogsListViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RobotViewModel.cs" />
     <Compile Include="ViewModels\RoutesListViewModel.cs" />
