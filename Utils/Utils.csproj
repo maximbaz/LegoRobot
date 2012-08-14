@@ -39,6 +39,7 @@
     <Compile Include="AsyncActionsProcessing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SocketListener.cs" />
+    <Compile Include="SocketSender.cs" />
     <Compile Include="ThreadSafeObservableCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -23,13 +24,17 @@ namespace UI.ViewModels
             get { return changeModeCommand ?? (changeModeCommand = new DelegateCommand(ChangeMode)); }
         }
 
+        public bool IsAutomaticModeEnabled {
+            get { return robotFace.State == RobotViewModel.RobotIs.Ready; }
+        }
+
         #endregion
 
         #region Fields
 
+        private readonly SocketListener newRoutesListener;
         private readonly Robot robot = new Robot();
         private readonly RobotViewModel robotFace;
-        private readonly SocketListener newRoutesListener;
         private DelegateCommand changeModeCommand;
         private DelegateCommand passRouteCommand;
 
@@ -41,34 +46,54 @@ namespace UI.ViewModels
             this.robotFace = robotFace;
             AutomaticMode = true;
             Routes = new ThreadSafeObservableCollection<RouteViewModel>();
-            Db.SelectAllRoutes(routes => {
-                foreach (var r in (from rd in routes select rd).OrderBy(k => k.Steps.Count)) {
-                    Routes.Add(new RouteViewModel(r));
-                }
-                OnPropertyChanged("Routes");
-                robotFace.ChangeState(RobotViewModel.RobotIs.Ready);
-            });
             newRoutesListener = new SocketListener(2000) {Working = true};
-            newRoutesListener.Received += id => {
-                // TODO: refresh list of routes
-                if (robotFace.Say == "Ready!") {
-                    // TODO: start passing this route
-                    // TODO: disable checkbox 'automatically pass new routes'
-                }
-            };
-            robot.Ready += () => robotFace.ChangeState(RobotViewModel.RobotIs.Ready);
-            robot.Moving += () => robotFace.ChangeState(RobotViewModel.RobotIs.Moving);
-            robot.Error += () => robotFace.ChangeState(RobotViewModel.RobotIs.Stopped);
+            Refresh();
+            SubscribeToEvents();
         }
 
         #endregion
 
         #region Protected And Private Methods
 
+        private void SubscribeToEvents() {
+            robot.Ready += () => {
+                robotFace.ChangeState(RobotViewModel.RobotIs.Ready);
+                OnPropertyChanged("IsAutomaticModeEnabled");
+            };
+
+            robot.Moving += () => {
+                robotFace.ChangeState(RobotViewModel.RobotIs.Moving);
+                OnPropertyChanged("IsAutomaticModeEnabled");
+            };
+
+            robot.Error += () => {
+                robotFace.ChangeState(RobotViewModel.RobotIs.Stopped);
+                OnPropertyChanged("IsAutomaticModeEnabled");
+            };
+
+            newRoutesListener.Received += id => {
+                Refresh();
+                // TODO: implement as queue
+                if (robotFace.State == RobotViewModel.RobotIs.Ready) {
+                    Db.GetRouteById(Guid.Parse(id), route => robot.PassRoute(route));
+                }
+            };
+        }
+
+        private void Refresh() {
+            Db.SelectAllRoutes(routes => {
+                foreach (var r in (from rd in routes select rd).OrderBy(k => k.Steps.Count)) {
+                    Routes.Add(new RouteViewModel(r));
+                }
+                OnPropertyChanged("Routes");
+                robotFace.ChangeState(RobotViewModel.RobotIs.Ready);
+                OnPropertyChanged("IsAutomaticModeEnabled");
+            });
+        }
+
         private void PassRoute() {
             var routeViewModel = (from r in Routes where r.IsSelected select r).Single();
             robot.PassRoute(routeViewModel.Route);
-            // TODO: enable checkbox 'automatically pass new routes'
         }
 
         private void ChangeMode() {
@@ -77,7 +102,7 @@ namespace UI.ViewModels
         }
 
         private bool CanPassRoute() {
-            return !AutomaticMode && IsAnyRouteSelected() && robotFace.Say == "Ready!";
+            return !AutomaticMode && IsAnyRouteSelected() && robotFace.State == RobotViewModel.RobotIs.Ready;
         }
 
         private bool IsAnyRouteSelected() {

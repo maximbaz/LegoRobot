@@ -32,52 +32,13 @@ namespace Model
             });
         }
 
-        public static void RouteError(Guid stepId, Guid routeId) {
+        public static void RouteError(Guid stepId, Guid routeId, Action<Guid> callback) {
             Invoke(() => {
-                Context.Errors.Add(new Error {StepId = stepId});
+                var error = new Error {StepId = stepId};
+                Context.Errors.Add(error);
                 Context.Log.Add(new Log {RouteId = routeId, Finish = DateTime.Now, Succeed = false});
                 Context.SaveChanges();
-            });
-        }
-
-        public static void FillDbWithFakeRoute() {
-            var points = new List<Point> {
-                new Point(0, 2),
-                new Point(1, 3),
-                new Point(4, 3),
-                new Point(4, 6),
-                new Point(2, 8),
-                new Point(0, 8),
-                new Point(0, 10)
-            };
-
-            var route = new Route {
-                Scale = 10,
-                Start = new Start {Position = new Point(0, 0), Offset = new Point(1, 1)}
-            };
-
-            var steps = new List<Step> {
-                new Step {Point = points[0], Order = 1, Route = route},
-                new Step {Point = points[1], Order = 2, Route = route},
-                new Step {Point = points[2], Order = 3, Route = route},
-                new Step {Point = points[3], Order = 4, Route = route},
-                new Step {Point = points[4], Order = 5, Route = route},
-                new Step {Point = points[5], Order = 6, Route = route},
-                new Step {Point = points[6], Order = 7, Route = route},
-            };
-
-            Context.Routes.Add(route);
-            foreach (var step in steps) {
-                Context.Steps.Add(step);
-            }
-
-            Context.SaveChanges();
-        }
-
-        public static void PassFirstRoute(Action<Route> callback) {
-            Invoke(() => {
-                var route = (from r in Context.Routes select r).First();
-                callback(route);
+                callback(error.Id);
             });
         }
 
@@ -85,8 +46,8 @@ namespace Model
             Invoke(() => callback(from r in Context.Routes select r));
         }
 
-        public static void GetAllLogs(Action<IEnumerable<Log>> callback) {
-            Invoke(() => callback(from l in Context.Log select l));
+        public static void GetRouteById(Guid id, Action<Route> callback) {
+            Invoke(() => callback(Context.Routes.AsEnumerable().Single(r => r.Id == id)));
         }
 
         #endregion

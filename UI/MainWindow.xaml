@@ -13,7 +13,7 @@
     <Image HorizontalAlignment="Left" VerticalAlignment="Top" Source="{StaticResource speechBubble}" Margin="10,10,0,0" Width="227" Height="178" Grid.ColumnSpan="2" />
     <TextBlock HorizontalAlignment="Left" Margin="{Binding RobotFace.Margin}" TextWrapping="Wrap" Text="{Binding RobotFace.Say}" VerticalAlignment="Top" Height="100" Width="190" FontFamily="Hobo Std" FontSize="36" Foreground="{Binding RobotFace.Color}" />
 
-    <CheckBox Command="{Binding RoutesListViewModel.ChangeModeCommand}" IsChecked="true" Content="Automatically Pass New Routes" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15" FontFamily="Plantagenet Cherokee" FontSize="16" Height="21" />
+<CheckBox Command="{Binding RoutesListViewModel.ChangeModeCommand}" IsChecked="true" IsEnabled="{Binding RoutesListViewModel.IsAutomaticModeEnabled}" Content="Automatically Pass New Routes" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15" FontFamily="Plantagenet Cherokee" FontSize="16" Height="21" />
     <ItemsControl ItemsSource="{Binding RoutesListViewModel.Routes}" IsEnabled="{Binding RoutesListViewModel.AutomaticMode, Converter={StaticResource negateConverter}}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Height="170" Width="240">
       <ItemsControl.Template>
         <ControlTemplate>

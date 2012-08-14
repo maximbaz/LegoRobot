@@ -50,10 +50,12 @@ namespace Utils
                 using (var socket = listener.AcceptSocket())
                 using (var stream = new NetworkStream(socket))
                 using (var reader = new StreamReader(stream)) {
-                    var data = reader.ReadToEnd();
-                    if (data.Length > 0) {
+                    var data = reader.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(data)) {
                         Received(data);
                     }
+                    reader.Close();
+                    socket.Close();
                 }
             }
         }

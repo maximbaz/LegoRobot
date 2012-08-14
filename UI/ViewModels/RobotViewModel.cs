@@ -19,6 +19,7 @@ namespace UI.ViewModels
         public string Say { get; private set; }
         public string Color { get; private set; }
         public string Margin { get; private set; }
+        public RobotIs State { get; private set; }
 
         #endregion
 
@@ -34,6 +35,7 @@ namespace UI.ViewModels
 
         public void ChangeState(RobotIs robotIs) {
             Margin = "60,50,0,0";
+            State = robotIs;
 
             switch (robotIs) {
                 case RobotIs.Loading:

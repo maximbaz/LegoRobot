@@ -4,18 +4,24 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Model;
 using Model.Routing;
+using Utils;
 using lejOS.Routing;
 
 namespace lejOS
 {
     public class Robot
     {
-        public event Action Ready;
+        #region Events
+
         public event Action Error;
         public event Action Moving;
+        public event Action Ready;
+
+        #endregion
 
         #region Fields
 
+        private readonly SocketSender errorObserver;
         private readonly Server server = new Server();
         private Socket socket;
 
@@ -26,6 +32,7 @@ namespace lejOS
         public Robot() {
             server.Started += CreateSocket;
             server.Start();
+            errorObserver = new SocketSender(2001);
         }
 
         #endregion
@@ -69,8 +76,7 @@ namespace lejOS
                 return;
 
             server.RefreshQueue();
-            // Todo: can I parse this?
-            Db.RouteError(ParseAnswer(answer, "Route"), ParseAnswer(answer, "Point"));
+            Db.RouteError(ParseAnswer(answer, "Route"), ParseAnswer(answer, "Point"), id => errorObserver.Send(id.ToString()));
             Fire(Error);
         }
 
