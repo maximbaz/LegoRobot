@@ -8,6 +8,7 @@ import lejos.robotics.navigation.TachoPilot;
 public class BTExecutor
 {
 	private boolean isDebugging = true;
+	private boolean throwErrorOnRoute = true;
 
     private LightSensor light;
     private TouchSensor touch;
@@ -124,6 +125,8 @@ public class BTExecutor
 	                    return answer + info;
 	                }
 	            }
+        	} else if(throwErrorOnRoute) {
+        		return answer + info;
         	}
             answer = "OK";
         }

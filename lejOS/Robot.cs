@@ -76,7 +76,7 @@ namespace lejOS
                 return;
 
             server.RefreshQueue();
-            Db.RouteError(ParseAnswer(answer, "Route"), ParseAnswer(answer, "Point"), id => errorObserver.Send(id.ToString()));
+            Db.RouteError(ParseAnswer(answer, "Step"), ParseAnswer(answer, "Route"), id => errorObserver.Send(id.ToString()));
             Fire(Error);
         }
 
